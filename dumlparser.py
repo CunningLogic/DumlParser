@@ -10,7 +10,7 @@ Usage:
 import sys
 import dumlcrc as crc
 import dumlutils as utils
-
+import dumlvalues as values
 
 def isdumlvalid(packet):
     if len(packet) < 13 or len(packet) > 0x01FF:
@@ -50,9 +50,11 @@ def parse(packet):
     print("CRC8\t\t", utils.bytes_to_int([packet[len(packet)-1], packet[len(packet)-2]]))
 
     print("\nSrc\t\t\t", packet[4] >> 5)
-    print("SrcID\t\t", packet[4] & 0x0E)
+    srcid = packet[4] & 0x0E
+    print("SrcID\t\t", srcid, values.devicetype.get(srcid))
     print("Dest\t\t", packet[5] >> 5)
-    print("DestID\t\t", packet[5] & 0x0E)
+    dstid = packet[5] & 0x0E
+    print("DestID\t\t", dstid, values.devicetype.get(dstid))
     print("Counter\t\t", ((packet[7] & 0xFF) << 8) | packet[6] & 0xFF)
 
     print("\ncmdType\t\t", packet[8] & ~0x1F)  # ToDo encryption bit is encoded here #ToDo print as hex
