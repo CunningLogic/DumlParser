@@ -1,6 +1,6 @@
-def bytes_to_int(bytes):
+def bytes_to_int(bites):
     result = 0
-    for b in bytes:
+    for b in bites:
         result = result * 256 + int(b)
 
     return result

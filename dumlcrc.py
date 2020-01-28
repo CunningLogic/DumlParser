@@ -74,6 +74,6 @@ def calc_crc8(header):
 
 def calc_crc16(packet):
     seed16 = 0x3692
-    for b in packet: # (j >> 8) ^ crc16[(j ^ packet[i]) & 0xFF];
+    for b in packet:
         seed16 = (seed16 >> 8) ^ crc16[(seed16 ^ b) & 0xFF]
     return seed16
