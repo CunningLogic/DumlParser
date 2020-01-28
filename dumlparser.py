@@ -57,9 +57,9 @@ def parse(packet):
     print("DestID\t\t", dstid, values.devicetype.get(dstid))
     print("Counter\t\t", ((packet[7] & 0xFF) << 8) | packet[6] & 0xFF)
 
-    print("\ncmdType\t\t", packet[8] >> 7, values.commandtypes.get(packet[8] >> 7))  # ToDo parse type, encryption and ack
-    print("ackType\t\t", packet[8] >> 5, values.ackTypes.get(packet[8] >> 5))  # ToDo parse type, encryption and ack
-    print("Encryption\t", packet[8] & 0x0F, values.encryptiontypes.get(packet[8] & 0x0F))  # ToDo parse type, encryption and ack
+    print("\ncmdType\t\t", packet[8] >> 7, values.commandtypes.get(packet[8] >> 7))
+    print("ackType\t\t", packet[8] >> 5, values.ackTypes.get(packet[8] >> 5))
+    print("Encryption\t", packet[8] & 0x0F, values.encryptiontypes.get(packet[8] & 0x0F))
     print("cmdSet\t\t", packet[9], values.commandsets.get(packet[9]))
     print("cmdID\t\t", packet[10])
 
