@@ -57,15 +57,17 @@ def parse(packet):
     print("DestID\t\t", dstid, values.devicetype.get(dstid))
     print("Counter\t\t", ((packet[7] & 0xFF) << 8) | packet[6] & 0xFF)
 
-    print("\ncmdType\t\t", packet[8] & ~0x1F)  # ToDo encryption bit is encoded here #ToDo print as hex
-    print("cmdSet\t\t", packet[9])  # ToDo print as hex
-    print("cmdID\t\t", packet[10])  # ToDo print as hex
+    print("\ncmdType\t\t", packet[8] >> 7, values.commandtypes.get(packet[8] >> 7))  # ToDo parse type, encryption and ack
+    print("ackType\t\t", packet[8] >> 5, values.ackTypes.get(packet[8] >> 5))  # ToDo parse type, encryption and ack
+    print("Encryption\t", packet[8] & 0x0F, values.encryptiontypes.get(packet[8] & 0x0F))  # ToDo parse type, encryption and ack
+    print("cmdSet\t\t", packet[9], values.commandsets.get(packet[9]))
+    print("cmdID\t\t", packet[10])
 
     if len(packet) > 13:
         bytearray = []
         for b in range(11, len(packet) - 2):
             bytearray.append(packet[b])
-        print("\nPayload\t\t", bytearray)
+        print("\nPayload\t\t", "".join("\\x%02x" % i for i in bytearray))
 
     print("\nCRC16\t\t", utils.bytes_to_int([packet[len(packet)-1], packet[len(packet)-2]]))
 
