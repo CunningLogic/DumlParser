@@ -25,7 +25,7 @@ def isdumlvalid(packet):
         print("Invalided encoded packet length")
         return False
 
-    if packet[3] != crc.calc_crc8([packet[0],packet[1],packet[2]]):
+    if packet[3] != crc.calc_crc8([packet[0], packet[1], packet[2]]):
         print("Header CRC8 is invalid")
         return False
 
@@ -33,7 +33,7 @@ def isdumlvalid(packet):
     for i in range(len(packet) - 2):
         trimPacket.append(packet[i])
 
-    crc16a = utils.bytes_to_int([packet[len(packet)-1],packet[len(packet)-2]])
+    crc16a = utils.bytes_to_int([packet[-1], packet[-2]])
     crc16b = crc.calc_crc16(trimPacket)
 
     if crc16a != crc16b:
@@ -47,7 +47,7 @@ def parse(packet):
 
     print("Length\t\t", packet[1] | ((packet[2] & 0x03) << 8))
     print("Version\t\t", packet[2] >> 2)
-    print("CRC8\t\t", utils.bytes_to_int([packet[len(packet)-1], packet[len(packet)-2]]))
+    print("CRC8\t\t", utils.bytes_to_int([packet[-1], packet[-2]]))
 
     print("\nSrc\t\t\t", packet[4] >> 5)
     srcid = packet[4] & 0x0E
@@ -69,7 +69,7 @@ def parse(packet):
             bytearray.append(packet[b])
         print("\nPayload\t\t", "".join("\\x%02x" % i for i in bytearray))
 
-    print("\nCRC16\t\t", utils.bytes_to_int([packet[len(packet)-1], packet[len(packet)-2]]))
+    print("\nCRC16\t\t", utils.bytes_to_int([packet[-1], packet[-2]]))
 
 
 def main(hexstr):
